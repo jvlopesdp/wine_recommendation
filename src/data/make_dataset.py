@@ -1,30 +1,32 @@
-# -*- coding: utf-8 -*-
-import click
-import logging
-from pathlib import Path
-from dotenv import find_dotenv, load_dotenv
+import pandas as pd
+import numpy as np
+import os
+from get_data import GetData
 
+input_directory = '..\\..\\data\\raw'
+output_directory = '..\\..\\data\\processed'
+get_data = GetData(input_directory)
+get_data.process_zip_files()
 
-@click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
-    """ Runs data processing scripts to turn raw data from (../raw) into
-        cleaned data ready to be analyzed (saved in ../processed).
-    """
-    logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
+class CreateDataframe:
+    
+    def __init__(self,input_directory, output_directory) -> None:
+        self.input_directory = input_directory
+        self.output_directory = output_directory
+        pass   
+    
+    def create_dataframes(self):
+        df_list = []
+        csv_files = [file for file in os.listdir(self.input_directory) if file.endswith('.csv')]
+        for csv_file in csv_files:
+            csv_file_directory = os.path.join(self.input_directory, csv_file)
+            df_name = 'df_'+csv_file.replace('.csv','')
+            df_name = pd.read_csv(csv_file_directory, skiprows=1)
+            df_list.append(df_name)
+        concatenated_df = pd.concat(df_list,ignore_index = True, axis = 0)
+        concatenated_df.to_parquet(os.path.join(self.output_directory, "concatenated_dfs.parquet"), index=False)
 
+if __name__ == "__main__":
+    create_df_obj = CreateDataframe(input_directory, output_directory)
+    create_df_obj.create_dataframes()
 
-if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
-
-    # not used in this stub but often useful for finding various files
-    project_dir = Path(__file__).resolve().parents[2]
-
-    # find .env automagically by walking up directories until it's found, then
-    # load up the .env entries as environment variables
-    load_dotenv(find_dotenv())
-
-    main()
