@@ -11,11 +11,11 @@ class GetData:
         pass
     
     def find_zip_files(self):
-        self.zip_files = [file for file in os.listdir(directory) if file.endswith('.zip')]
- 
+        self.zip_files = [file for file in os.listdir(self.directory) if file.endswith('.zip')]
+        
     def extract_zip_files(self):
         for file in self.zip_files:
-            zip_filepath = os.path.join(directory,file)
+            zip_filepath = os.path.join(self.directory,file)
             with zipfile.ZipFile(zip_filepath ,'r') as zip:
                 zip_files = zip.namelist()
                 for zip_file in zip_files:
@@ -29,5 +29,4 @@ class GetData:
     def process_zip_files(self):
         self.find_zip_files()
         self.extract_zip_files()
-        
-# %%
+
