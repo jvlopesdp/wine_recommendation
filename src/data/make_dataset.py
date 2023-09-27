@@ -4,11 +4,6 @@ import numpy as np
 import os
 from get_data import GetData
 
-input_directory = '..\\..\\data\\raw'
-output_directory = '..\\..\\data\\processed'
-get_data = GetData(input_directory)
-get_data.process_zip_files()
-
 class CreateDataframe:
     
     def __init__(self,input_directory, output_directory) -> None:
@@ -28,15 +23,3 @@ class CreateDataframe:
             df_list.append(df_name)
         concatenated_df = pd.concat(df_list,ignore_index = True, axis = 0)
         concatenated_df.to_parquet(os.path.join(self.output_directory, "concatenated_dfs.parquet"), index=False)
-
-if __name__ == "__main__":
-    create_df_obj = CreateDataframe(input_directory, output_directory)
-    create_df_obj.create_dataframes()
-
-#%%
-classe = CreateDataframe(input_directory=input_directory,output_directory=output_directory)
-# %%
-classe.create_dataframes()
-#%%
-pd.read_parquet('..\..\data\processed\concatenated_dfs.parquet')
-# %%
