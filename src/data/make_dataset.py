@@ -2,7 +2,6 @@
 import pandas as pd
 import numpy as np
 import os
-from get_data import GetData
 
 class CreateDataframe:
     
