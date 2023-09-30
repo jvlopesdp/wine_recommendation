@@ -21,6 +21,17 @@ class SentimentAnalysis:
         for key, value in self.columns_corresp.items():
             sentiment_df[value] = self.temp_df['description'].apply(lambda x: analyzer.polarity_scores(x)[key])
         return sentiment_df
+    
+    
+class BinaryFeature:
+    def __init__(self, dataframe) -> None:
+        self.temp_df = dataframe.copy(deep = True)
+        pass
+    
+    def binary_value(self, source_column, new_column, intersection):
+        binary_df = pd.DataFrame()
+        binary_df[new_column] = self.temp_df[source_column].apply(lambda x: 1 if x >= intersection else 0)
+        return binary_df
 #%%
 
 class Vectorizer:

@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from data.get_data import GetData
 from data.make_dataset import CreateDataframe
-from features.FeatureEngineering import Vectorizer, SentimentAnalysis
+from features.FeatureEngineering import Vectorizer, SentimentAnalysis, BinaryFeature
 
 #Defining variables
 input_directory = '..\\data\\raw'
@@ -54,6 +54,13 @@ class Orchestrador:
         self.temp_df = pd.concat([self.temp_df, df_tfidf], axis=1) 
         return self.temp_df
     
+    def colunas_binarias(self):
+        binary = BinaryFeature(self.temp_df)
+        binary_column = binary.binary_value('price', 'binary_comp', 0.5)
+        print('Criando coluna binária')
+        self.temp_df = pd.concat([self.temp_df, binary_column], axis=1) 
+        return self.temp_df
+    
     def cria_parquet(self):
         print('Salvando parquet com dados e features tratadas')
         self.temp_df.to_parquet(os.path.join(self.output_directory, "base_with_features.parquet"), index=False)
@@ -64,6 +71,7 @@ class Orchestrador:
         self.concatena_df()
         self.retorna_dataframe()
         self.tratamento_sentimento()
+        self.colunas_binarias()
         self.vectorizer_columns()
         self.cria_parquet()
         
@@ -73,7 +81,3 @@ if __name__ == '__main__':
                                 output_directory=output_directory,
                                 topn=topn)
     orquestrador.run()
-    
-
-
-# %%
