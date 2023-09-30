@@ -21,4 +21,6 @@ class CreateDataframe:
             df_name.drop(df_name.columns[0], axis=1, inplace=True)
             df_list.append(df_name)
         concatenated_df = pd.concat(df_list,ignore_index = True, axis = 0)
-        concatenated_df.to_parquet(os.path.join(self.output_directory, "concatenated_dfs.parquet"), index=False)
+        concatenated_df.to_parquet(os.path.join(self.input_directory, "concatenated_dfs.parquet"), index=False)
+
+# %%

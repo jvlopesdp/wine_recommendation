@@ -6,6 +6,7 @@ from data.get_data import GetData
 from data.make_dataset import CreateDataframe
 from features.FeatureEngineering import Vectorizer, SentimentAnalysis, BinaryFeature
 
+#%%
 #Defining variables
 input_directory = '..\\data\\raw'
 output_directory = '..\\data\\processed'
@@ -31,12 +32,12 @@ class Orchestrador:
     
     def retorna_dataframe(self):
         print('Criação do dataframe - cache')
-        self.parquet_files = [file for file in os.listdir(output_directory) if file.endswith('.parquet')]
+        self.parquet_files = [file for file in os.listdir(self.input_directory) if file.endswith('.parquet')]
         if not self.parquet_files:
             print('Nenhum arquivo excel encontrado')
             return None
-        self.most_recent_file = max(self.parquet_files, key=lambda x: os.path.getmtime(os.path.join(self.output_directory, x)))
-        most_recent_directory = os.path.join(self.output_directory, self.most_recent_file)
+        self.most_recent_file = max(self.parquet_files, key=lambda x: os.path.getmtime(os.path.join(self.input_directory, x)))
+        most_recent_directory = os.path.join(self.input_directory, self.most_recent_file)
         self.temp_df = pd.read_parquet(most_recent_directory)
         return self.temp_df
 
@@ -56,7 +57,7 @@ class Orchestrador:
     
     def colunas_binarias(self):
         binary = BinaryFeature(self.temp_df)
-        binary_column = binary.binary_value('price', 'binary_comp', 0.5)
+        binary_column = binary.binary_value('comp_vader', 'binary_comp', 0.5)
         print('Criando coluna binária')
         self.temp_df = pd.concat([self.temp_df, binary_column], axis=1) 
         return self.temp_df
@@ -81,3 +82,5 @@ if __name__ == '__main__':
                                 output_directory=output_directory,
                                 topn=topn)
     orquestrador.run()
+    
+#%%
