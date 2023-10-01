@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from data.get_data import GetData
 from data.make_dataset import CreateDataframe
-from features.FeatureEngineering import Vectorizer, SentimentAnalysis, BinaryFeature
+from features.FeatureEngineering import Vectorizer, SentimentAnalysis, BinaryFeature, NullTreatment
 
 #%%
 #Defining variables
@@ -41,6 +41,29 @@ class Orchestrador:
         self.temp_df = pd.read_parquet(most_recent_directory)
         return self.temp_df
 
+    def fill_price_nulls(self):
+        filler = NullTreatment(self.temp_df)
+        print('Preenchendo valores vazios na coluna "price"')
+        filled_column = 'price'
+        from_columns = ['winery', 'variety']
+        self.temp_df = filler.fill_mean_by_columns(filled_column, from_columns)
+        return self.temp_df
+    
+    def fill_province_nulls(self):
+        filler = NullTreatment(self.temp_df)
+        print('Preenchendo valores vazios na coluna "province"')
+        filled_column = 'province'
+        from_columns = ['winery']
+        self.temp_df = filler.fill_value_by_columns(filled_column, from_columns)
+        return self.temp_df
+    
+    def drop_nulls(self):
+        dropper = NullTreatment(self.temp_df)
+        print(f'Removendo nulos restantes')
+        columns_names = ['province', 'price', 'variety']
+        dropper.drop_null(columns_names)
+        return self.temp_df
+    
     def tratamento_sentimento(self):
         vader = SentimentAnalysis(self.temp_df)
         print('Realizando análise de sentimento e criando colunas do vader')
@@ -71,6 +94,9 @@ class Orchestrador:
         self.extrai_arquivos()
         self.concatena_df()
         self.retorna_dataframe()
+        self.fill_price_nulls()
+        self.fill_province_nulls()
+        self.drop_nulls()
         self.tratamento_sentimento()
         self.colunas_binarias()
         self.vectorizer_columns()
@@ -83,4 +109,3 @@ if __name__ == '__main__':
                                 topn=topn)
     orquestrador.run()
     
-#%%

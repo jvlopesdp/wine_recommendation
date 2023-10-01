@@ -1,6 +1,7 @@
 #%%
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import  TfidfVectorizer
+from itertools import combinations
 import pandas as pd
 import numpy as np
 import os
@@ -54,3 +55,32 @@ class Vectorizer:
         X_tfidf_top_40 = pd.DataFrame(X_tfidf[:, top_40_indices[0]].toarray(), columns=top_40_words[0]) # type: ignore
         return X_tfidf_top_40
 
+
+
+class NullTreatment:
+    
+    def __init__(self, dataframe) -> None:
+        self.temp_df = dataframe.copy(deep = True)
+        pass
+    
+    def fill_mean_by_columns(self, filled_column, from_columns):
+        for n in range(len(from_columns)):
+            for combination in combinations(from_columns, len(from_columns)-n):
+                combination = list(combination)
+                self.temp_df[filled_column] = self.temp_df.groupby(combination)[filled_column].transform(lambda grp: grp.fillna(np.mean(grp)))
+        return self.temp_df
+    
+    def fill_value_by_columns(self, filled_column, columns_from):
+        for n in range(len(columns_from)):
+            for combination in combinations(columns_from, len(columns_from)-n):
+                combination = list(combination)
+                self.temp_df[filled_column] = self.temp_df.groupby(combination)[filled_column].transform(lambda x: x.bfill().ffill())
+        return self.temp_df
+    
+    def drop_null(self, columns_names):
+        for column in columns_names:
+            self.temp_df = self.temp_df.dropna(subset=[column])
+            nulls = self.temp_df[column].isna().sum()
+            print(f'Restaram {nulls} nulos na coluna {column}')
+        return self.temp_df
+# %%
