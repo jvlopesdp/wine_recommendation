@@ -61,7 +61,7 @@ class Orchestrador:
         dropper = NullTreatment(self.temp_df)
         print(f'Removendo nulos restantes')
         columns_names = ['province', 'price', 'variety']
-        dropper.drop_null(columns_names)
+        self.temp_df = dropper.drop_null(columns_names)
         return self.temp_df
     
     def tratamento_sentimento(self):
@@ -75,6 +75,8 @@ class Orchestrador:
         vectorizer = Vectorizer(self.temp_df, self.topn)
         print('Realizando vetorização das palavras e adicionando no dataframe')
         df_tfidf = vectorizer.extract_main_words()
+        self.temp_df.reset_index(drop=True, inplace=True)
+        df_tfidf.reset_index(drop=True, inplace=True)
         self.temp_df = pd.concat([self.temp_df, df_tfidf], axis=1) 
         return self.temp_df
     
@@ -109,3 +111,5 @@ if __name__ == '__main__':
                                 topn=topn)
     orquestrador.run()
     
+
+# %%
