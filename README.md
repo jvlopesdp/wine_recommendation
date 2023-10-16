@@ -41,6 +41,9 @@ Para utilizar o app, basta rodar a seguinte linha de comando na pasta principal 
 
 > streamlit run wine_app.py
 
+![Demonstração de uso](Demonstração.gif)
+
+
 Estrutura das pastas
 ------------
 
