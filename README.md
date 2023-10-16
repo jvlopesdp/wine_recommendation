@@ -4,7 +4,7 @@ Sistema de recomendação de vinhos
 >Este projeto se concentra na construção de um sistema de recomendação de vinhos usando dados extraídos de duas fontes do Kaggle. O objetivo é fornecer sugestões de vinhos com base em um rótulo de vinho específico.
 
 [EN/US]
-> Traduzir texto
+> This project focuses on building a wine recommendation system using data extracted from two Kaggle sources. The goal is to provide wine suggestions based on a specific wine label.
 
 Contribuidores
 ------------
@@ -45,50 +45,43 @@ Estrutura das pastas
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Remover
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── README.md           <- The top-level README for developers using this project.
+    │
     ├── data
-    │   ├── external       <- Remover
-    │   ├── interim        <- Remover
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
+    │   ├── processed          <- Base de dados final contendo tratamentos e transformações realizadas
+    │   └── raw                     <- Dados originais a partir das fontes selecionadas.
     │
-    ├── docs               <- Remover
+    ├── models                      <- Modelo treinado a partir de base de dados tratadas
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    ├── notebooks                 <- Arquivo contendo análises exploratórias e investigações realizadas na base de dados
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── requirements.txt         <- Feito a partir da biblioteca pipreqs
     │
-    ├── references         <- Remover
-    │
-    ├── reports            <- Remover
-    │   └── figures        <- Remover
-    │
-    ├── requirements.txt   <- Feito com pipreqs
-    │
-    ├── setup.py           <- Remover
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
+    ├── src                                 <- Códigos, classes e funções criadas para funcionamento do projeto
+    │   ├── make_data_Features.py        <- Código capaz de extrair e ler os arquivos zip contendo as bases originais, realizar tratamentos e feature engineering
     │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
+    │   ├── data                                          <- Scripts com módulos e funções capaz de gerar e construir os dados
+    │   │   └── get_data.py                         <- Extrai arquivos csv dentro do .zip
+    │   │   └── make_dataset.py                 <- Cria o parquet contendo os dois dataframes e armazena em raw
     │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
+    │   ├── features                                     <- Scripts necessários para transformar os dados _raw_ em features para modelagem
+    │   │   └── FeatureEngineering.py         <- Scripts que permitem construção de features a partir da análise de sentimento, TFIDF das principais palavras e tratamento de dados nulos e faltantes
     │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
+    │   ├── models                 <- Scripts para treinar modelo de recomendação
+    │   │   ├── recommendatio_system.py         <- Modelo de recomendação com treino e função que permite realizar as predições de recomendação
     │   │
     │   └── visualization  <- Remover
     │       └── visualize.py
     │
-    └── tox.ini            <- Remover
+    └── wine_app.py            <- Função que cria o dashboard em streamlit e acessa o modelo treinado salvo
 
 
---------
-
+:construction: Próximos passos :construction:
+------------
+* Utilização de dados reais
+    * Crawler de dados em site com recomendações e avaliações reais
+* Estruturação e armazenamento de dados em cloud e aplicações de técnicas de MLOps
+* Construção de modelo de recomendação utilizando técnicas de _Colaborative-Filtering_ e _Content-Based Filtering_
+    * Aplicação de técnicas de _embedding_ para melhor aproveitamento dos comentários das descrições e avaliações 
+  
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
