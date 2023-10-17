@@ -90,3 +90,6 @@ target/
 
 # Modelo
 *.pkl
+
+# Documentos
+KNN-K_Nearest_Neighborhood.pdf
