@@ -8,7 +8,7 @@ from sklearn.neighbors import NearestNeighbors
 import pickle
 import os
 #%%
-input_dir = 'data\\processed\\base_with_features.parquet'
+
 #%%
 class WineRecommender:
     
@@ -38,8 +38,6 @@ class WineRecommender:
         all_selected_columns = numeric_features + binary_features + categorical_features
         
         self.df = self.df[all_selected_columns].copy()
-
-
 
         # Construindo o pipeline
         numeric_transformer = Pipeline(steps=[
@@ -81,11 +79,3 @@ class WineRecommender:
     def load_model(cls, filename):
         with open(filename, 'rb') as f:
             return pickle.load(f)
-
-# # Uso
-# recommender = WineRecommender(input_dir)
-# recommender.fit()
-# # Salvar o modelo
-# recommender.save_model('models\\wine_recommender_knn.pkl')
-
-#%%

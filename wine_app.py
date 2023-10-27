@@ -2,7 +2,13 @@ import streamlit as st
 import pandas as pd
 import pickle
 from src.models.recommendation_system import WineRecommender
+from src.models.train_model import TrainSave
+import os
 
+def train_model():
+    train_save = TrainSave()
+    train_save.fit_model(input_dir='data\\processed\\base_with_features.parquet')
+    # train_save.save_model(model=model, saving_dir='models\\wine_recommender_knn.pkl')
 
 # Carregar modelo treinado
 @st.cache_data
@@ -10,6 +16,18 @@ def load_model():
     with open('models//wine_recommender_knn.pkl', 'rb') as f:
         return pickle.load(f)
 
+# Função para verificar se existe um modelo pré-treinado no diretório
+# Caso positvo, o App utilizará o modelo pré-treinado
+# Caso negativo, um novo modelo será treinado
+def check_existence(file_to_check, in_dir):
+    if not file_to_check in os.listdir(in_dir):
+        print('Treinando novo modelo ...')
+        train_model()
+        print('Concluído')
+    else:
+        print('Utilizando modelo existente ...')
+        
+check_existence('wine_recommender_knn.pkl', 'models')
 model = load_model()
 
 # Interface Streamlit
