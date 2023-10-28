@@ -1,16 +1,29 @@
+
 import streamlit as st
 import pandas as pd
 import pickle
 from src.models.recommendation_system import WineRecommender
-
+import os
+input_dir = 'data\\processed\\base_with_features.parquet'
 
 # Carregar modelo treinado
-@st.cache_data
-def load_model():
-    with open('models//wine_recommender_knn.pkl', 'rb') as f:
-        return pickle.load(f)
+@st.cache_data()
+def load_or_train_model():
+    model_file_path = 'models//wine_recommender_knn.pkl'
+    if os.path.exists(model_file_path):
+        with open(model_file_path, 'rb') as f:
+            print('Importando modelo salvo')
+            return pickle.load(f)
+            
+    else:
+        recommender = WineRecommender(input_dir)
+        recommender.fit()
+        with open(model_file_path, 'wb') as f:
+            pickle.dump(recommender, f)
+            print('Salvando modelo')
+        return recommender
 
-model = load_model()
+model = load_or_train_model()
 
 # Interface Streamlit
 st.title('🍇 Recomendação de Vinhos 🍷')
