@@ -18,8 +18,7 @@ Feedbacks e sugestões são sempre bem-vindos.
 
 Fonte de Dados
 ------------
-Os dados foram obtidos das seguintes fontes do Kaggle:
-* [Wine Recommender](https://www.kaggle.com/code/sudhirnl7/wine-recommender/input)
+Os dados foram obtidos da seguinte fonte do Kaggle:
 * [Wine Reviews](https://www.kaggle.com/datasets/zynicide/wine-reviews)
 
 Etapas do Projeto
