@@ -1,10 +1,10 @@
 Sistema de recomendação de vinhos
 ==============================
 **[PT/BR]** 
->Este projeto se concentra na construção de um sistema de recomendação de vinhos usando dados extraídos de duas fontes do Kaggle. O objetivo é fornecer sugestões de vinhos com base em um rótulo de vinho específico.
+>Este projeto consiste em um sistema de recomendação de vinhos a partir de dados extraídos de duas fontes do Kaggle. O objetivo é fornecer sugestões de vinhos com base em um rótulo de vinho selecionado pelo usuário.
 
 **[EN/US]**
-> This project focuses on building a wine recommendation system using data extracted from two Kaggle sources. The goal is to provide wine suggestions based on a specific wine label.
+> This project focuses on building a wine recommendation system using data extracted from two Kaggle sources. The goal is to provide wine suggestions based on a wine selected by the user.
 
 Contribuidores
 ------------
