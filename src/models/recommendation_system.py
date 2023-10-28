@@ -82,10 +82,4 @@ class WineRecommender:
         with open(filename, 'rb') as f:
             return pickle.load(f)
 
-# # Uso
-# recommender = WineRecommender(input_dir)
-# recommender.fit()
-# # Salvar o modelo
-# recommender.save_model('models\\wine_recommender_knn.pkl')
-
 #%%
