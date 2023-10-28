@@ -93,10 +93,5 @@ target/
 
 # Documentos
 KNN-K_Nearest_Neighborhood.pdf
-2023 09 05 _Data exploratory.ipynb
-2023 09 08 _Data exploratory.ipynb
-2023 09 19_Description analysis.ipynb
-2023 09 22_Sentiment analysis.ipynb
-2023 09 30_NullTreatmentTests.ipynb
-fisrt_look.ipynb
-profile_report.ipynb
+notebooks/*.ipynb
+!notebooks/data_exploratory.ipynb
