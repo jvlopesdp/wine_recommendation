@@ -94,4 +94,4 @@ target/
 # Documentos
 KNN-K_Nearest_Neighborhood.pdf
 notebooks/*.ipynb
-!notebooks/data_exploratory.ipynb
+!notebooks/exploratory_data_analysis.ipynb
